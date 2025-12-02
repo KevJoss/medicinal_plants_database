@@ -5,9 +5,11 @@ def get_db_connection():
     db_config = {
         'host': 'localhost',
         'user': 'root',
-        'password': '1234',
+        'password': '1234', 
+        'host': '127.0.0.1',
+        'port': 3306,
         'database': 'Medicinal_plants_project',
-        'port': 3306
+        'charset': 'utf8mb4'
     }
     try:
         connection = mysql.connector.connect(**db_config)
