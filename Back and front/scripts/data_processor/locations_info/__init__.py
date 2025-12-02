@@ -1,0 +1,7 @@
+from scripts.data_processor.data_processor import excel_data
+from scripts.data_processor.data_processor import create_dataframe_info_antonio_ante
+from scripts.data_processor.data_processor import create_dataframe_info_cotacachi
+from scripts.data_processor.data_processor import create_dataframe_info_otavalo
+from scripts.data_processor.data_processor import create_dataframe_info_pimampiro
+from scripts.data_processor.data_processor import create_dataframe_info_ibarra
+from scripts.data_processor.data_processor import create_dataframe_info_urcuqui
