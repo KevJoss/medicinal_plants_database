@@ -6,7 +6,7 @@ def get_db_connection():
         'password': '1234', 
         'host': '127.0.0.1',
         'port': 3306,
-        'database': 'Medicinal_plants_proyect',
+        'database': 'Medicinal_plants_project',
         'charset': 'utf8mb4'
     }
     try:
