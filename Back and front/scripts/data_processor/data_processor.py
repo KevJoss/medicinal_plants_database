@@ -1,5 +1,6 @@
 import pandas as pd
 import os
+import unicodedata
 
 current_script_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -14,6 +15,23 @@ file_path = os.path.normpath(file_path)
 
 # Read the excel file with plants information
 excel_data = pd.ExcelFile(file_path)
+
+# --- FUNCIÓN DE NORMALIZACIÓN ---
+def remove_accents(input_str):
+    """
+    Normaliza el texto: elimina tildes, quita espacios extra y pone formato Título.
+    Ejemplo: 'Orégano ' -> 'Oregano'
+    """
+    if not isinstance(input_str, str):
+        return str(input_str) # Manejo de valores que no sean string
+    
+    # Eliminar acentos
+    nfkd_form = unicodedata.normalize('NFKD', input_str)
+    text_without_accents = "".join([c for c in nfkd_form if not unicodedata.combining(c)])
+    
+    # Quitar espacios y formato título
+    return text_without_accents.strip().title()
+# -------------------------------
 
 def create_dataframe_info_antonio_ante(excel_data):
     urcuqui_ante_excel_dataframe = pd.read_excel(excel_data, sheet_name='Antonio Ante')
@@ -46,6 +64,9 @@ def create_dataframe_info_antonio_ante(excel_data):
     antonio_ante_dataframe['referencia_2'] = list(antonio_ante_referencia_2)
     antonio_ante_dataframe['referencia_3'] = list(antonio_ante_referencia_3)
     
+    # Normalizar nombre común
+    antonio_ante_dataframe['nombre_comun'] = antonio_ante_dataframe['nombre_comun'].apply(remove_accents)
+
     return antonio_ante_dataframe
 
 
@@ -80,6 +101,9 @@ def create_dataframe_info_urcuqui(excel_data):
     urcuqui_dataframe['referencia_2'] = list(urcuqui_referencia_2)
     urcuqui_dataframe['referencia_3'] = list(urcuqui_referencia_3)
     
+    # Normalizar nombre común
+    urcuqui_dataframe['nombre_comun'] = urcuqui_dataframe['nombre_comun'].apply(remove_accents)
+
     return urcuqui_dataframe
 
 def create_dataframe_info_pimampiro(excel_data):
@@ -113,6 +137,9 @@ def create_dataframe_info_pimampiro(excel_data):
     pimampiro_dataframe['referencia_2'] = list(pimampiro_referencia_2)
     pimampiro_dataframe['referencia_3'] = list(pimampiro_referencia_3)
     
+    # Normalizar nombre común
+    pimampiro_dataframe['nombre_comun'] = pimampiro_dataframe['nombre_comun'].apply(remove_accents)
+
     return pimampiro_dataframe
 
 def create_dataframe_info_otavalo(excel_data):
@@ -146,6 +173,9 @@ def create_dataframe_info_otavalo(excel_data):
     otavalo_dataframe['referencia_2'] = list(otavalo_referencia_2)
     otavalo_dataframe['referencia_3'] = list(otavalo_referencia_3)
     
+    # Normalizar nombre común
+    otavalo_dataframe['nombre_comun'] = otavalo_dataframe['nombre_comun'].apply(remove_accents)
+
     return otavalo_dataframe
 
 def create_dataframe_info_cotacachi(excel_data):
@@ -179,6 +209,9 @@ def create_dataframe_info_cotacachi(excel_data):
     cotacachi_dataframe['referencia_2'] = list(cotacachi_referencia_2)
     cotacachi_dataframe['referencia_3'] = list(cotacachi_referencia_3)
     
+    # Normalizar nombre común
+    cotacachi_dataframe['nombre_comun'] = cotacachi_dataframe['nombre_comun'].apply(remove_accents)
+
     return cotacachi_dataframe
 
 def create_dataframe_info_ibarra(excel_data):
@@ -212,9 +245,7 @@ def create_dataframe_info_ibarra(excel_data):
     ibarra_dataframe['referencia_2'] = list(ibarra_referencia_2)
     ibarra_dataframe['referencia_3'] = list(ibarra_referencia_3)
     
+    # Normalizar nombre común
+    ibarra_dataframe['nombre_comun'] = ibarra_dataframe['nombre_comun'].apply(remove_accents)
+
     return ibarra_dataframe
-
-# if __name__ == '__main__':
-#     pass
-    
-
