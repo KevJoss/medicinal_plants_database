@@ -1,0 +1,9 @@
+venv/
+medicinal_plants/
+
+__pycache__/
+*.pyc
+
+.env
+
+.vscode/

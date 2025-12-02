@@ -1,7 +1,18 @@
 import pandas as pd
+import os
 
-# Read the excel file with plants  information
-file_path = r'C:\Users\NW\Documents\Computer Science\Yachay Tech Major\Sexto semestre\Data Bases\Final_Project\Data_cleaning\Proyecto plantas medicinales_test.xlsx'
+current_script_dir = os.path.dirname(os.path.abspath(__file__))
+
+file_path = os.path.join(
+    current_script_dir, 
+    '..', '..', '..',   
+    'Data_cleaning',    
+    'Proyecto plantas medicinales_test.xlsx' 
+)
+
+file_path = os.path.normpath(file_path)
+
+# Read the excel file with plants information
 excel_data = pd.ExcelFile(file_path)
 
 def create_dataframe_info_antonio_ante(excel_data):
