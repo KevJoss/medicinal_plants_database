@@ -5,3 +5,4 @@ from scripts.data_processor.data_processor import create_dataframe_info_otavalo
 from scripts.data_processor.data_processor import create_dataframe_info_pimampiro
 from scripts.data_processor.data_processor import create_dataframe_info_ibarra
 from scripts.data_processor.data_processor import create_dataframe_info_urcuqui
+from scripts.db_connection import get_db_connection

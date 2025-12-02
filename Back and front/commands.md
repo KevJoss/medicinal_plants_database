@@ -1,9 +1,9 @@
+#### Volver a crear el docker limpio
+docker-compose up -d
+
 #### Borrar el contenedor con el volumen
 
 docker-compose down -v
-
-#### Volver a crear el docker limpio
-docker-compose up -d
 
 ##### A. Cuando te sientas a trabajar (Encender)
 docker-compose up -d
