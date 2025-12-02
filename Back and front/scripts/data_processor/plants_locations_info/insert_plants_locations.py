@@ -98,7 +98,7 @@ def seed_plants_locations():
                 data_to_insert.append((plant_id, location_id))
             else:
                 # Opcional: Imprimir advertencias si algo no cruza
-                # print(f"Advertencia: No se encontró ID para {plant_name} en {city_name}")
+                print(f"Advertencia: No se encontró ID para {plant_name} en {city_name}")
                 pass
 
         # 4. Insertar en la tabla intermedia

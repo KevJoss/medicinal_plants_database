@@ -23,7 +23,7 @@ def remove_accents(input_str):
     Ejemplo: 'Orégano ' -> 'Oregano'
     """
     if not isinstance(input_str, str):
-        return str(input_str) # Manejo de valores que no sean string
+        return str(input_str) 
     
     # Eliminar acentos
     nfkd_form = unicodedata.normalize('NFKD', input_str)
@@ -31,7 +31,6 @@ def remove_accents(input_str):
     
     # Quitar espacios y formato título
     return text_without_accents.strip().title()
-# -------------------------------
 
 def create_dataframe_info_antonio_ante(excel_data):
     urcuqui_ante_excel_dataframe = pd.read_excel(excel_data, sheet_name='Antonio Ante')
