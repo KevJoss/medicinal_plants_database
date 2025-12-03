@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Usos de Plantas</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <div class="header-actions">
+        <h1>📋 Reporte de Usos y Propiedades</h1>
+        <a href="{{ url_for('frontend.index') }}" class="btn-cancel">
+            ⬅ Volver al Inicio
+        </a>
+    </div>
+
+    <div class="container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Planta</th>
+                    <th>Ubicación</th>
+                    <th>Tipo de Uso</th>
+                    <th>Descripción Detallada</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in uses_data %}
+                <tr>
+                    <td>
+                        <strong>{{ item[1].current_name }}</strong><br>
+                        <small><i>{{ item[1].scientific_name }}</i></small>
+                    </td>
+                    <td>
+                        📍 {{ item[2].city_name }}
+                    </td>
+                    <td>
+                        <span class="badge-use">{{ item[0].type_use }}</span>
+                    </td>
+                    <td>{{ item[0].description }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="4" class="no-data" style="text-align: center;">
+                        No hay usos registrados todavía.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

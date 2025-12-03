@@ -64,3 +64,60 @@ input[type="text"] {
 .btn-cancel {
     margin-left: 10px; color: #e74c3c; text-decoration: none;
 }
+
+
+
+
+
+
+/* ... (MANTENER EL CSS ANTERIOR) ... */
+
+/* ✨ NUEVOS ESTILOS ✨ */
+
+/* Contenedor para alinear botones a la derecha */
+.header-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max_width: 1000px;
+    margin: 0 auto 20px auto;
+}
+
+.buttons-container {
+    display: flex;
+    gap: 10px;
+}
+
+/* Estilo para el botón de Usos (Color Naranja/Amarillo) */
+.btn-uses {
+    background-color: #f39c12; 
+    color: white; 
+    padding: 10px 20px;
+    text-decoration: none; 
+    border-radius: 5px; 
+    font-weight: bold;
+}
+
+.btn-uses:hover {
+    background-color: #e67e22;
+}
+
+/* Badge para el tipo de uso en la tabla */
+.badge-use {
+    background-color: #e8f6f3;
+    color: #16a085;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.85em;
+    font-weight: bold;
+    border: 1px solid #16a085;
+}
+
+/* Ajuste al botón cancelar para que parezca botón de volver */
+.btn-cancel {
+    background-color: #7f8c8d;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+}
