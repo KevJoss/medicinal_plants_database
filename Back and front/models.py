@@ -1,64 +1,54 @@
 from flask_sqlalchemy import SQLAlchemy
-from datetime import date as dt_date
 
 db = SQLAlchemy()
+
+# 1. Definir la tabla intermedia como un objeto db.Table (Asociación pura)
+# Esto es mejor para relaciones Muchos a Muchos simples.
+plants_locations = db.Table('plants_locations',
+    db.Column('id_plant_pk', db.Integer, db.ForeignKey('plants.id_plant_pk'), primary_key=True),
+    db.Column('id_location_pk', db.Integer, db.ForeignKey('locations.id_location_pk'), primary_key=True)
+)
 
 class Plant(db.Model):
     __tablename__ = 'plants'
     id_plant_pk = db.Column(db.Integer, primary_key=True)
-    current_name = db.Column(db.String(100), nullable=False)
+    current_name = db.Column(db.String(100), nullable=False, unique=True) # Agregué unique=True aquí en vez de __table_args__
     scientific_name = db.Column(db.String(100), nullable=False)
-#   Many2many relation between plants and PlantsLocations
-    locations = db.relationship('PlantsLocations', back_populates='plant')
     
-    __table_args__ = (
-        db.UniqueConstraint('current_name', name='PK_current_name'),
-    )
-    
+    # 2. Relación Muchos a Muchos directa
+    # 'secondary' apunta a la tabla intermedia definida arriba.
+    # 'back_populates' conecta con la propiedad 'plants' en Location.
+    locations = db.relationship('Location', secondary=plants_locations, back_populates='plants')
 
 class Location(db.Model):
     __tablename__ = 'locations'
     id_location_pk = db.Column(db.Integer, primary_key=True)
     city_name = db.Column(db.String(100), nullable=False)
     province_name = db.Column(db.String(100), nullable=False)
-#   Many2many relation between locations and PlantsLocations
-    plants = db.relationship('PlantsLocations', back_populates='location')
+    
+    # 3. Relación inversa
+    plants = db.relationship('Plant', secondary=plants_locations, back_populates='locations')
 
-class PlantsLocations(db.Model):
-    __tablename__ = 'plants_locations'
-    id_plant_pk = db.Column(db.Integer, db.ForeignKey('plants.id_plant_pk'), primary_key=True)
-    id_location_pk = db.Column(db.Integer, db.ForeignKey('locations.id_location_pk'), primary_key=True)
-#   Bidirectional conexion with Plant and Location models
-    plant = db.relationship('Plant', back_populates='locations')
-    location = db.relationship('Location', back_populates='plants')
+# --- NOTA IMPORTANTE SOBRE EL MODELO 'Use' ---
+# Como 'Use' tiene una clave foránea compuesta que apunta a la tabla intermedia,
+# debemos asegurarnos de que la tabla 'plants_locations' exista físicamente.
+# Al definirla con db.Table arriba, SQLAlchemy la creará correctamente.
 
-# Use Model
 class Use(db.Model):
     __tablename__ = 'uses'
     id_use_pk = db.Column(db.Integer, primary_key=True)
-    id_plant_pk = db.Column(db.Integer, primary_key=True)
-    id_location_pk = db.Column(db.Integer, primary_key=True)
+    
+    # Claves foráneas apuntando a la tabla intermedia
+    id_plant_pk = db.Column(db.Integer, nullable=False)
+    id_location_pk = db.Column(db.Integer, nullable=False)
+    
     description = db.Column(db.Text, nullable=False)
     type_use = db.Column(db.String(200), nullable=False)
 
     __table_args__ = (
+        # FK compuesta apuntando a la tabla intermedia
         db.ForeignKeyConstraint(
             ['id_plant_pk', 'id_location_pk'],
             ['plants_locations.id_plant_pk', 'plants_locations.id_location_pk']
         ),
     )
-
-    def __init__(self, id_use_pk, id_plant_pk, id_location_pk, description, type_use):
-        self.id_use_pk = id_use_pk
-        self.id_plant_pk = id_plant_pk
-        self.id_location_pk = id_location_pk
-        self.description = description
-        self.type_use = type_use
-
-    def create(self):
-        db.session.add(self)
-        db.session.commit()
-        return self
-
-    def __repr__(self):
-        return f'<Use {self.id_use_pk}, Plant {self.id_plant_pk}, Location {self.id_location_pk}: {self.description}>'
