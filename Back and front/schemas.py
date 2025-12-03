@@ -1,6 +1,6 @@
 from marshmallow import fields
 from flask_marshmallow.sqla import SQLAlchemyAutoSchema
-from models import Location, Plant, db
+from models import Location, Plant, Use, db
 
 
 class LocationSchema(SQLAlchemyAutoSchema):
@@ -32,4 +32,8 @@ class PlantSchema(SQLAlchemyAutoSchema):
     # exclude=('plants',): Evita un bucle infinito (Planta -> Ubicación -> Planta...).
     locations = fields.Nested('LocationSchema', many=True, exclude=('plants',))
 
-
+class UseSchema(SQLAlchemyAutoSchema):
+    class Meta(SQLAlchemyAutoSchema.Meta):
+        model = Use
+        # Incluir las claves foráneas en el esquema
+        include_fk = True
