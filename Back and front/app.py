@@ -2,6 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from routes.plant import plant_bp
 from routes.location import location_bp
+from routes.frontend import frontend_bp  
 
 # Importar configuración y registros de rutas
 from config import Config
@@ -19,7 +20,7 @@ db.init_app(app)
 # Register blueprints
 app.register_blueprint(plant_bp, url_prefix='/plants')
 app.register_blueprint(location_bp, url_prefix='/locations')
-
+app.register_blueprint(frontend_bp, url_prefix='/')
 
 
 # Crear tablas si no existen
