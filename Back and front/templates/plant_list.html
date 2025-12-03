@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Plantas Medicinales</title>
+    <!-- Enlazamos el CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <div class="header-actions">
+        <h1>🌿 Lista de Plantas Medicinales</h1>
+        <a href="{{ url_for('frontend.create_plant_form') }}" class="btn-add">
+            + Nueva Planta
+        </a>
+    </div>
+
+    <div class="container">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre Común</th>
+                    <th>Nombre Científico</th>
+                    <th>Ubicaciones (Ciudades)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for plant in plants %}
+                <tr>
+                    <td>{{ plant.id_plant_pk }}</td>
+                    <td>{{ plant.current_name }}</td>
+                    <td><i>{{ plant.scientific_name }}</i></td>
+                    <td>
+                        <!-- Bucle anidado para las ubicaciones -->
+                        {% if plant.locations %}
+                            <ul class="location-list">
+                            {% for loc in plant.locations %}
+                                <li>📍 {{ loc.city_name }} ({{ loc.province_name }})</li>
+                            {% endfor %}
+                            </ul>
+                        {% else %}
+                            <span class="no-data">Sin ubicación registrada</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

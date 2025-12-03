@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Nueva Planta</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>🌱 Agregar Nueva Planta</h1>
+        
+        <form action="{{ url_for('frontend.create_plant_submit') }}" method="POST">
+            
+            <!-- Datos de la Planta -->
+            <div class="form-group">
+                <label for="current_name">Nombre Común:</label>
+                <input type="text" id="current_name" name="current_name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="scientific_name">Nombre Científico:</label>
+                <input type="text" id="scientific_name" name="scientific_name" required>
+            </div>
+
+            <!-- Selección de Ubicaciones (Tabla Intermedia) -->
+            <div class="form-group">
+                <label>Selecciona las Ubicaciones:</label>
+                <div class="checkbox-group">
+                    {% for loc in locations %}
+                        <div class="checkbox-item">
+                            <input type="checkbox" 
+                                   id="loc_{{ loc.id_location_pk }}" 
+                                   name="locations" 
+                                   value="{{ loc.id_location_pk }}">
+                            <label for="loc_{{ loc.id_location_pk }}">
+                                {{ loc.city_name }} ({{ loc.province_name }})
+                            </label>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <button type="submit" class="btn-save">Guardar Planta</button>
+            <a href="{{ url_for('frontend.index') }}" class="btn-cancel">Cancelar</a>
+        </form>
+    </div>
+</body>
+</html>
