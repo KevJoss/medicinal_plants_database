@@ -136,7 +136,7 @@ El sistema relacional consta de las siguientes tablas principales:
 **Kevin**
 
   - GitHub: [KevJoss](https://github.com/KevJoss/)
-  - Correo: kevin.sanchez@yachaytech.edu.ec
+  - Correo: kelth.joss53@gmail.com
 
 **Jhony**
 
