@@ -1,274 +1,145 @@
-# Sistema de base de datos para plantas medicinales de la provincia de Imbabura
+# Sistema de Base de Datos de Plantas Medicinales (Imbabura)
 
-Este proyecto es una Base de datos de plantas medicinales de la provincia de Imbabura. Contiene por momento una API diseñada para crear, gestionar y administrar las tablas de una base de datos relacional SQL. Ademas,hace uso de  un archivo .ipynb para limpiar e insertar los datos obtenidos del .xlsx  para ser insertados en el modelo  SQL.
+Este repositorio contiene un sistema integral para la gestión, administración y consulta de una base de datos de plantas medicinales de la provincia de Imbabura, Ecuador. El proyecto incluye una API RESTful construida con Flask, una interfaz web básica, scripts de limpieza de datos y una base de datos relacional contenerizada en Docker.
 
----
+## 📋 Características
 
-## Características
+  - **API RESTful**: Endpoints para crear, leer, actualizar y eliminar (CRUD) registros de plantas, ubicaciones, usos, imágenes e investigaciones.
+  - **Interfaz Web**: Vistas HTML (`create_plant.html`, `plant_list.html`, etc.) para interactuar visualmente con el sistema.
+  - **Gestión de Base de Datos**:
+      - Creación automática de tablas relacionales.
+      - Soporte para consultas complejas (Joins) entre tablas.
+  - **Procesamiento de Datos**: Scripts en Jupyter Notebook (`Data_cleaning`) para limpiar e importar datos masivos desde archivos Excel (`.xlsx`) y CSV.
+  - **Entorno Dockerizado**: Configuración lista para usar con Docker Compose para la base de datos MySQL.
 
-- **Creacion de tablas**:   La API tiene la capacidad de crear instantaneamente las tablas de la estrucctura relacional.
-- **Insertar datos del .xlsx**: El archivo Data_cleaning insertar la informacíon del archivo excel a la estrucctura de la base de datos.
-- **Insertar nuevos registros**: Los usuarios pueden insertar a travez de la API nuevos registros de las plantas y asi mismo informacion relacionada a ellas como entrevistas.
-- **Modificacion de datos**: Los usuarios pueden modificar y actualizar los datos  de un registro en especifico usando la API.
-- **Joins entre tablas**: Los usuarios pueden realizar consultas del tipo join entre dos tablas, ademas de un join entre 3 tablas usando la API.
-- **Modelo grafico del modelo**: El desarrollador podrá ver el modelo implementado a travez del archivo LOGICAL_DESIGN_PLANTS.architect
+## 🛠️ Tecnologías Utilizadas
 
----
+  - **Lenguaje**: Python 3.x
+  - **Backend**: Flask, Flask-SQLAlchemy
+  - **Base de Datos**: MySQL 8.0
+  - **Contenedores**: Docker & Docker Compose
+  - **Ciencia de Datos**: Pandas, Jupyter Notebooks (para limpieza de datos)
+  - **Frontend**: HTML5, CSS3
 
-## Estructura de la Base de Datos
+## 📂 Estructura del Proyecto
 
-El sistema utiliza una base de datos relacional con las siguientes tablas principales:
+  - `Back and front/`: Contiene el código fuente de la aplicación Flask, modelos, rutas y plantillas HTML.
+  - `Data_cleaning/`: Contiene los notebooks (`.ipynb`) y archivos CSV para la limpieza y transformación de los datos crudos recolectados.
+  - `.vscode/`: Configuraciones del editor.
 
-- **PLANTS**: Detalla el nombre común y nombre científico.
-- **LOCATIONS**: Registra el nombre del canton y provincia. 
-- **PLANTS_LOCATIONS**: Registra el id unico de la tabla PLANTS y LOCATIONS (Es una tabla intermedia).
-- **Images**: Contiene los registros de las imagenes asociadas a las plantas y al lugar de investigación, ademas de su fecha, lugar donde se tomó la foto y el link de la foto.
-- **Previous_researches**: Refiere a las investigaciones previas realizadas a una planta específica en un lugar específico, ademas incluye la información sobre el título de la investigación (En el caso de que tuviere) y el link asociado.
-- **Uses**: Describe el uso que se le da a una planta en un lugar de investigación específico, asi como el tipo de uso que es.
-- **Toponimos**: Relaciona una planta y un lugar de investigación a travez del lugar de origen, distribucion y distribucion comercial. 
-- **Interview_customers**: Refiere a las entrevistas a consumidores relacionadas a donde se realizó la investigacion, contiene un link a la entrevista digital y las pregunas asociadas.
-- **Interview_vendors**: Refiere a las entrevistas a vendedores relacionadas a donde se realizó la investigacion, contiene un link a la entrevista digital y las pregunas asociadas.
----
+## 🚀 Instalación y Configuración
 
-## Esquema de la base de datos
+Sigue estos pasos para configurar el entorno de desarrollo localmente.
 
-### Tabla: plants
+### 1\. Clonar el repositorio
 
-| **Field**       | **Type**     |**Null** | **Key** | **Default** | **Extra**      |
-|-----------------|--------------|---------|---------|-------------|----------------|
-| id_plant_pk     | int          | NO      | PRI     | NULL        | auto_increment |
-| current_name    | varchar(100) | NO      |         | NULL        |                |
-| scientific_name | varchar(100) | NO      |         | NULL        |                |
-
-
-
----
-
-### Tabla: locations
-
-
-| **Field**      | **Type**     | **Null** | **Key** | **Default** | **Extra**      |
-|----------------|--------------|----------|---------|-------------|----------------|
-| id_location_pk | int          | NO       | PRI     | NULL        | auto_increment |
-| city_name      | varchar(100) | NO       |         | NULL        |                |
-| province_name  | varchar(100) | NO       |         | NULL        |                |
-
----
-
-### Tabla: plants_locations
-
-| **Field**      | **Type**     | **Null** | **Key** | **Default** | **Extra**       |
-|----------------|--------------|----------|---------|-------------|-----------------|
-| id_plant_pk    | int          | NO       | PRI     | NULL        |                 |
-| id_location_pk | int          | NO       | PRI     | NULL        |                 |
-
-
----
-
-### Tabla: images
-
-| **Field**      | **Type**     | **Null** | **Key** | **Default** | **Extra**       |
-|----------------|--------------|----------|---------|-------------|-----------------|
-| id_image_pk    | int          | NO       | PRI     | NULL        |                 |
-| id_plant_pk    | int          | NO       | PRI     | NULL        |                 |
-| id_location_pk | int          | NO       | PRI     | NULL        |                 |
-| link           | text         | NO       |         | NULL        |                 |
-| date           | date         | NO       |         | NULL        |                 |
-| place          | varchar(100) | NO       |         | NULL        |                 |
-
----
-
-### Tabla: uses
-
-| **Field**      | **Type**     | **Null** | **Key** | **Default** | **Extra**      |
-|----------------|--------------|----------|---------|-------------|----------------|
-| id_use_pk      | int          | NO       | PRI     | NULL        |                |
-| id_plant_pk    | int          | NO       | PRI     | NULL        |                |
-| id_location_pk | int          | NO       | PRI     | NULL        |                |
-| description    | text         | NO       |         | NULL        |                |
-| type_use       | varchar(200) | NO       |         | NULL        |                |
-
-
-
----
-
-### Tabla: previous_researchs
-
-| **Field**      | **Type**     |**Null** | **Key** | **Default** | **Extra**      |
-|----------------|--------------|---------|---------|-------------|----------------|
-| id_research_pk | int          | NO      | PRI     | NULL        |                |
-| id_plant_pk    | int          | NO      | PRI     | NULL        |                |
-| id_location_pk | int          | NO      | PRI     | NULL        |                |
-| title          | varchar(255) | NO      |         | NULL        |                |
-| link           | text         | YES     |         | NULL        |                |
-
-
-
-
-### Tabla: toponimos
-
-| **Field**               | **Type**     | **Null** | **Key** | **Default** | **Extra**      |
-|-------------------------|--------------|----------|---------|-------------|----------------|
-| id_toponimo_pk          | int          | NO       | PRI     | NULL        |                |
-| id_plant_pk             | int          | NO       | PRI     | NULL        |                |
-| id_location_pk          | int          | NO       | PRI     | NULL        |                |
-| origin                  | text         | YES      |         | NULL        |                |
-| commercial_distribution | varchar(400) | YES      |         | NULL        |                |
-| distribution            | varchar(400) | YES      |         | NULL        |                |
-
-
----
-
-### Tabla: interview_customers
-
-| **Field**                  |  **Type**    | **Null**     | **Key** | **Default** | **Extra**      |
-|----------------------------|--------------|--------------|---------|-------------|----------------|
-| id_interviews_customer_pk  | int          | NO           | PRI     | NULL        |                |
-| id_location_pk             | int          | NO           | PRI     | NULL        |                |
-| link                       | varchar(500) | NO           |         | NULL        |                |
-| q1                         | varchar(255) | YES          |         | NULL        |                |
-| q2                         | varchar(255) | YES          |         | NUL         |                |
-| q3                         | varchar(255) | YES          |         | NULL        |                |
-| q4                         | varchar(255) | YES          |         | NULL        |                |
-| q5                         | varchar(255) | YES          |         | NULL        |                |
-| q6                         | varchar(255) | YES          |         | NULL        |                |
-| q7                         | varchar(255) | YES          |         | NULL        |                |
-| q8                         | varchar(255) | YES          |         | NULL        |                |
-| q9                         | varchar(255) | YES          |         | NULL        |                |
-| q10                        | varchar(255) | YES          |         | NULL        |                |
-| q11                        | varchar(255) | YES          |         | NULL        |                |
-| q12                        | varchar(255) | YES          |         | NULL        |                |
-| q13                        | varchar(255) | YES          |         | NULL        |                |
-| q14                        | varchar(255) | YES          |         | NULL        |                |
-| q15                        | varchar(255) | YES          |         | NULL        |                |
-| q16                        | varchar(255) | YES          |         | NULL        |                |
-| q17                        | varchar(255) | YES          |         | NULL        |                |
-| q18                        | varchar(255) | YES          |         | NULL        |                |
-| q19                        | varchar(255) | YES          |         | NULL        |                |
-| q20                        | varchar(255) | YES          |         | NULL        |                |
-| q21                        | varchar(255) | YES          |         | NULL        |                |
-| q22                        | varchar(255) | YES          |         | NULL        |                |
-| q23                        | varchar(255) | YES          |         | NULL        |                |
-| q24                        | varchar(255) | YES          |         | NULL        |                |
-
----
-### Tabla: Interview_vendors
-
-| **Field**               | **Type**     | **Null** | **Key** | **Default** | **Extra**      |
-|-------------------------|--------------|----------|---------|-------------|----------------|
-| id_interviews_vendor_pk | int          | NO       | PRI     | NULL        |                |
-| id_location_pk          | int          | NO       | PRI     | NULL        |                |
-| link                    | varchar(500) | NO       |         | NULL        |                |
-| q1                      | varchar(255) | YES      |         | NULL        |                |
-| q2                      | varchar(255) | YES      |         | NULL        |                |
-| q3                      | varchar(255) | YES      |         | NULL        |                |
-| q4                      | varchar(255) | YES      |         | NULL        |                |
-| q5                      | varchar(255) | YES      |         | NULL        |                |
-| q6                      | varchar(255) | YES      |         | NULL        |                |
-| q7                      | varchar(255) | YES      |         | NULL        |                |
-| q8                      | varchar(255) | YES      |         | NULL        |                |
-| q9                      | varchar(255) | YES      |         | NULL        |                |
-| q10                     | varchar(255) | YES      |         | NULL        |                |
-| q11                     | varchar(255) | YES      |         | NULL        |                |
-| q12                     | varchar(255) | YES      |         | NULL        |                |
-| q13                     | varchar(255) | YES      |         | NULL        |                |
-| q14                     | varchar(255) | YES      |         | NULL        |                |
-| q15                     | varchar(255) | YES      |         | NULL        |                |
-| q16                     | varchar(255) | YES      |         | NULL        |                |
-| q17                     | varchar(255) | YES      |         | NULL        |                |
-| q18                     | varchar(255) | YES      |         | NULL        |                |
-| q19                     | varchar(255) | YES      |         | NULL        |                |
-| q20                     | varchar(255) | YES      |         | NULL        |                |
-| q21                     | varchar(255) | YES      |         | NULL        |                |
-| q22                     | varchar(255) | YES      |         | NULL        |                |
-| q23                     | varchar(255) | YES      |         | NULL        |                |
-
-
----
-
-## Instalación
-
-1. **Clonar el repositorio**:
-   ```bash
-   git clone https://github.com/aldrinchp/Medicinal-plants-proyect.git
-   ```
-
-2. **Instalar las dependencias**:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-3. **Configurar la base de datos en docker**:
-Este proyecto utiliza un contenedor Docker para MySQL con persistencia de datos mediante volúmenes.
--Crear y levantar el contenedor
 ```bash
-docker run -d \
-  --name mysql \
-  -e MYSQL_ROOT_PASSWORD=123456789 \
-  -p 3306:3306 \
-  -v mysql_data:/var/lib/mysql \
-  mysql:latest
+git clone <URL_DE_TU_REPOSITORIO>
+cd <NOMBRE_DE_LA_CARPETA>
 ```
-- Iniciar el contenedor si no está instanciado.
+
+### 2\. Crear un entorno virtual (Opcional pero recomendado)
+
 ```bash
-docker start mysql
+python -m venv venv
+# En Windows
+venv\Scripts\activate
+# En Linux/Mac
+source venv/bin/activate
 ```
--Ejecutar el contenedor
+
+### 3\. Instalar dependencias
+
+Instala las librerías necesarias listadas en `requirements.txt`:
+
 ```bash
-docker exec -it mysql mysql -u root -p
+pip install -r requirements.txt
 ```
--Crear la base de datos en el contenedor
+
+### 4\. Configurar la Base de Datos con Docker
+
+El proyecto utiliza Docker Compose para levantar una instancia de MySQL con persistencia de datos.
+
+**Levantar la base de datos:**
+Asegúrate de estar en el directorio donde se encuentra el archivo `docker-compose.yml` (o ejecuta apuntando al archivo):
+
 ```bash
-CREATE DATABASE Medicinal_plants_proyect;
+cd "Back and front"
+docker-compose up -d
 ```
-Notas:
--Asegúrate de tener creado un tabla llamada Medicinal_plants_proyect en una instancia de MySQL.
-- Actualiza la configuración de la base de datos en el archivo `config.py` con tus credenciales de MySQL (En caso de cambiar las contraseña propuesta).
 
-8. **Ejecutar la aplicación**:
-   ```bash
-   tu_directorio/app.py
-   ```
+> **Nota:** Esto levantará un contenedor llamado `medicinal_plants_mysql` en el puerto `3306` con la base de datos `Medicinal_plants_project` y contraseña `1234` (según tu `docker-compose.yml`).
 
----
+### 5\. Ejecutar la Aplicación
 
-## Uso
+Una vez que la base de datos esté activa, puedes iniciar la aplicación Flask. Esto también creará las tablas automáticamente si no existen.
 
-Una vez que la aplicación esté en funcionamiento, puedes interactuar con la API utilizando herramientas como [Postman](https://www.postman.com/) o [cURL](https://curl.se/).
+```bash
+# Estando en la carpeta "Back and front"
+python app.py
+```
 
-### Endpoints Principales (En correción debido a cambios)
+La aplicación estará disponible en `http://127.0.0.1:5000`.
 
-#### Plants
+## 📖 Uso de la API
 
-- `POST /plants`: Crea una nuevo registro de una planta.
-- `DELETE /plants/<id>`: Elimina un registro de una planta.
-- `GET /plants/all_plants`: Obtiene la lista de todos las plantas registradas.
-- `GET /plants/<id>`: Obtiene información de una planta específica.
-- `PUT /plants/<id>`: Actualiza información de una planta.
+Puedes interactuar con la API utilizando herramientas como Postman o cURL. A continuación, los endpoints principales:
 
+### Plantas (`/plants`)
 
-#### Locations
+  - `GET /plants/all_plants`: Obtener todas las plantas.
+  - `POST /plants`: Crear un nuevo registro de planta.
+  - `GET /plants/<id>`: Obtener detalles de una planta específica.
+  - `PUT /plants/<id>`: Actualizar una planta.
+  - `DELETE /plants/<id>`: Eliminar una planta.
 
-- `POST /locations`: Crea un nuevo registro de un sitio.
-- `DELETE /locations/<id>`: Elimina un registro de un sitio.
-- `GET /locations/all_locations`: Obtiene la lista de todos los sitios.
-- `GET /locations/<id>`: Obtiene información de un sitio específico.
-- `PUT /locations/<id>`: Actualiza información de un sitio.
+### Ubicaciones (`/locations`)
 
-#### Images
+  - `GET /locations/all_locations`: Listar todos los sitios de investigación.
+  - `POST /locations`: Registrar una nueva ubicación.
 
-- `POST /images`: Crea un nuevo registro de imagen.
-- `DELETE /images/<id>`: Elimina un registro de imagen.
-- `GET /images/all_images`: Obtiene la lista de todos los sitios.
-- `GET /images/<id>`: Obtiene información de un sitio específico.
-- `PUT /images/<id>`: Actualiza información de un sitio.
----
-Los queries para las demas tablas pueden ser inferidos a partir de las inferencias anteriores.
+*También existen endpoints para `/images`, `/uses` y las rutas del frontend.*
 
-## Contacto
+## 🐳 Comandos útiles de Docker
 
-Cualquier duda, puedes contactarme:
+Guía rápida para gestionar el contenedor de la base de datos (basado en `commands.md`):
 
-- **Nombre**: [Aldrin](https://github.com/aldrinchp)
+| Acción | Comando |
+|Opcion| Descripción |
+|---|---|
+| **Encender** | `docker-compose up -d` (Levanta la BD y mantiene los datos guardados) |
+| **Ver estado** | `docker ps` |
+| **Apagar** | `docker-compose stop` (Detiene sin borrar datos) |
+| **Resetear (Borrar todo)** | `docker-compose down -v` (Borra el contenedor y los volúmenes/datos) |
+| **Entrar a SQL** | `docker exec -it medicinal_plants_mysql mysql -u root -p1234` |
 
-- **Correo**: aldrinchp@gmail.com
+## 🗂️ Esquema de Base de Datos
+
+El sistema relacional consta de las siguientes tablas principales:
+
+  - **PLANTS**: Información taxonómica (nombre común, científico).
+  - **LOCATIONS**: Datos geográficos (cantón, provincia).
+  - **PLANTS\_LOCATIONS**: Tabla intermedia para la relación N:M.
+  - **IMAGES**: Metadatos y enlaces a fotografías de las muestras.
+  - **USES**: Descripción y categorización de usos medicinales.
+  - **PREVIOUS\_RESEARCHES**: Bibliografía y estudios previos relacionados.
+  - **TOPONIMOS**: Origen y distribución.
+  - **INTERVIEWS**: Tablas separadas para entrevistas a consumidores y vendedores.
+
+## 👤 Autors
+
+**Aldrin**
+
+  - GitHub: [aldrinchp](https://github.com/aldrinchp)
+  - Correo: aldrinchp@gmail.com
+
+**Kevin**
+
+  - GitHub: [KevJoss](https://github.com/KevJoss/)
+  - Correo: kevin.sanchez@yachaytech.edu.ec
+
+**Jhony**
+
+  - GitHub: [ShonyALV](https://github.com/ShonyALV)
+  - Correo: ljhonyalfonso@gmail.com
+
